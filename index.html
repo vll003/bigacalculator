@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biga Calculator</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#f59e0b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Biga Calc">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  :root {
+    --bg: #1a1a1a;
+    --bg2: #242424;
+    --bg3: #2e2e2e;
+    --accent: #f59e0b;
+    --accent2: #d97706;
+    --text: #e5e5e5;
+    --text2: #a3a3a3;
+    --border: #404040;
+    --success: #22c55e;
+    --error: #ef4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  header {
+    background: var(--bg2);
+    border-bottom: 3px solid var(--accent);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: #1a1a1a;
+  }
+
+  .logo h1 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .lang-toggle {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+
+  .lang-toggle:hover { background: var(--border); }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+  }
+
+  .section {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    header { padding: 12px 14px; }
+    .logo h1 { font-size: 17px; }
+    .container { padding: 14px 10px 30px; }
+    .section { padding: 14px; }
+    .results-grid { grid-template-columns: 1fr !important; }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .field label {
+    font-size: 13px;
+    color: var(--text2);
+    font-weight: 500;
+  }
+
+  .field input {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 600;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .field input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .field .hint {
+    font-size: 11px;
+    color: var(--text2);
+    opacity: 0.7;
+  }
+
+  .btn-calc {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: var(--accent);
+    color: #1a1a1a;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.2s, transform 0.1s;
+    margin-bottom: 20px;
+  }
+
+  .btn-calc:hover { background: var(--accent2); }
+  .btn-calc:active { transform: scale(0.98); }
+
+  #results { display: none; }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .result-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+
+  .result-card .label {
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .result-card .value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1.2;
+  }
+
+  .result-card .unit {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 2px;
+  }
+
+  .result-card.highlight {
+    border-color: var(--accent);
+    background: rgba(245, 158, 11, 0.08);
+  }
+
+  .schedule-table-wrap {
+    overflow-x: auto;
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  th {
+    background: var(--bg3);
+    color: var(--accent);
+    padding: 10px 14px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--accent);
+  }
+
+  td {
+    padding: 10px 14px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+  }
+
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  tr:hover td { background: rgba(245, 158, 11, 0.06); }
+
+  .time-big {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--accent);
+  }
+
+  .error-msg {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--error);
+    color: var(--error);
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    display: none;
+  }
+
+  .ferm-warn {
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">B</div>
+    <h1>BIGA CALCULATOR</h1>
+  </div>
+  <button class="lang-toggle" onclick="toggleLang()" id="langBtn">EN</button>
+</header>
+
+<div class="container">
+
+  <!-- INPUT SECTION: Product -->
+  <div class="section">
+    <div class="section-title" data-i18n="section_product">ПРОДУКТ</div>
+    <div class="form-grid">
+      <div class="field">
+        <label data-i18n="lbl_biga_per_mix">Вес биги на микс (кг)</label>
+        <input type="number" id="bigaPerMix" value="35" min="1" step="0.1">
+        <span class="hint" data-i18n="hint_biga_per_mix">кг биги на 1 микс</span>
+      </div>
+      <div class="field">
+        <label data-i18n="lbl_total_mixes">Количество миксов</label>
+        <input type="number" id="totalMixes" value="85" min="1" step="1">
+        <span class="hint" data-i18n="hint_total_mixes">всего миксов по плану</span>
+      </div>
+      <div class="field">
+        <label data-i18n="lbl_cycle_time">Цикл тайм продукта (сек)</label>
+        <input type="number" id="cycleTime" value="405" min="1" step="1">
+        <span class="hint" data-i18n="hint_cycle_time">время одного цикла в секундах</span>
+      </div>
+      <div class="field">
+        <label data-i18n="lbl_dough_ferm">Ферментация теста (мин)</label>
+        <input type="number" id="doughFerm" value="35" min="0" step="1">
+        <span class="hint" data-i18n="hint_dough_ferm">после замеса</span>
+      </div>
+      <div class="field">
+        <label data-i18n="lbl_travel">Путь до линии (мин)</label>
+        <input type="number" id="travelTime" value="7" min="0" step="1">
+        <span class="hint" data-i18n="hint_travel">транспортировка теста</span>
+      </div>
+      <div class="field">
+        <label data-i18n="lbl_mixes_before">Миксов до старта линии</label>
+        <input type="number" id="mixesBefore" value="2" min="1" step="1">
+        <span class="hint" data-i18n="hint_mixes_before">готово к моменту старта</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- INPUT SECTION: Biga & Schedule -->
+  <div class="section">
+    <div class="section-title" data-i18n="section_biga">BIGA & РАСПИСАНИЕ</div>
+    <div class="form-grid">
+      <div class="field">
+        <label data-i18n="lbl_biga_ferm">Ферментация биги (часы)</label>
+        <input type="number" id="bigaFerm" value="12" min="11" max="13" step="0.5">
+        <span class="hint" data-i18n="hint_biga_ferm">11–13 ч, идеал 12</span>
+      </div>
+      <div class="field">
+        <label data-i18n="lbl_line_start">Старт продукта на линии</label>
+        <input type="time" id="lineStart" value="19:00">
+        <span class="hint" data-i18n="hint_line_start">время начала на линии</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="error-msg" id="errorMsg"></div>
+
+  <button class="btn-calc" onclick="calculate()" data-i18n="btn_calc">РОЗРАХУВАТИ</button>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="section">
+      <div class="section-title" data-i18n="section_results">РЕЗУЛЬТАТЫ</div>
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="label" data-i18n="res_total_biga">Всего биги</div>
+          <div class="value" id="rTotalBiga">—</div>
+          <div class="unit" data-i18n="unit_kg">кг</div>
+        </div>
+        <div class="result-card highlight">
+          <div class="label" data-i18n="res_barrels">Бочек</div>
+          <div class="value" id="rBarrels">—</div>
+          <div class="unit" data-i18n="unit_barrels">× 300 кг</div>
+        </div>
+        <div class="result-card">
+          <div class="label" data-i18n="res_mix_hr">Миксов / час</div>
+          <div class="value" id="rMixHr">—</div>
+          <div class="unit" data-i18n="unit_mix_hr">миксов</div>
+        </div>
+        <div class="result-card">
+          <div class="label" data-i18n="res_total_time">Общее время</div>
+          <div class="value" id="rTotalTime">—</div>
+          <div class="unit" data-i18n="unit_hr_min">ч:мин</div>
+        </div>
+        <div class="result-card highlight">
+          <div class="label" data-i18n="res_barrel_interval">Интервал бочек</div>
+          <div class="value" id="rInterval">—</div>
+          <div class="unit" data-i18n="unit_min_sec">мин:сек</div>
+        </div>
+        <div class="result-card highlight">
+          <div class="label" data-i18n="res_first_biga">Старт первой биги</div>
+          <div class="value" id="rFirstBiga">—</div>
+          <div class="unit" id="rFirstBigaDate"></div>
+        </div>
+      </div>
+
+      <div class="results-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="result-card">
+          <div class="label" data-i18n="res_first_mix">Первый замес теста</div>
+          <div class="value" id="rFirstMix">—</div>
+          <div class="unit" id="rFirstMixDate"></div>
+        </div>
+        <div class="result-card">
+          <div class="label" data-i18n="res_line_start2">Старт линии</div>
+          <div class="value" id="rLineStart">—</div>
+          <div class="unit"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title" data-i18n="section_schedule">РАСПИСАНИЕ БОЧЕК</div>
+      <div class="schedule-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="th_num">№</th>
+              <th data-i18n="th_start">Запуск</th>
+              <th data-i18n="th_ready">Готовность</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const i18n = {
+  ru: {
+    section_product: "ПРОДУКТ",
+    section_biga: "BIGA & РАСПИСАНИЕ",
+    section_results: "РЕЗУЛЬТАТЫ",
+    section_schedule: "РАСПИСАНИЕ БОЧЕК",
+    lbl_biga_per_mix: "Вес биги на микс (кг)",
+    lbl_total_mixes: "Количество миксов",
+    lbl_cycle_time: "Цикл тайм продукта (сек)",
+    lbl_dough_ferm: "Ферментация теста (мин)",
+    lbl_travel: "Путь до линии (мин)",
+    lbl_mixes_before: "Миксов до старта линии",
+    lbl_biga_ferm: "Ферментация биги (часы)",
+    lbl_line_start: "Старт продукта на линии",
+    hint_biga_per_mix: "кг биги на 1 микс",
+    hint_total_mixes: "всего миксов по плану",
+    hint_cycle_time: "время одного цикла в секундах",
+    hint_dough_ferm: "после замеса",
+    hint_travel: "транспортировка теста",
+    hint_mixes_before: "готово к моменту старта",
+    hint_biga_ferm: "11–13 ч, идеал 12",
+    hint_line_start: "время начала на линии",
+    btn_calc: "РОЗРАХУВАТИ",
+    res_total_biga: "Всего биги",
+    res_barrels: "Бочек",
+    res_mix_hr: "Миксов / час",
+    res_total_time: "Общее время",
+    res_barrel_interval: "Интервал бочек",
+    res_first_biga: "Старт первой биги",
+    res_first_mix: "Первый замес теста",
+    res_line_start2: "Старт линии",
+    unit_kg: "кг",
+    unit_barrels: "× 300 кг",
+    unit_mix_hr: "миксов",
+    unit_hr_min: "ч:мин",
+    unit_min_sec: "мин:сек",
+    th_num: "№",
+    th_start: "Запуск",
+    th_ready: "Готовность",
+    err_fields: "Заполните все поля корректно",
+    err_ferm: "Ферментация биги должна быть 11–13 часов",
+    prev_day: "предыдущий день"
+  },
+  en: {
+    section_product: "PRODUCT",
+    section_biga: "BIGA & SCHEDULE",
+    section_results: "RESULTS",
+    section_schedule: "BARREL SCHEDULE",
+    lbl_biga_per_mix: "Biga per mix (kg)",
+    lbl_total_mixes: "Number of mixes",
+    lbl_cycle_time: "Product cycle time (sec)",
+    lbl_dough_ferm: "Dough fermentation (min)",
+    lbl_travel: "Travel to line (min)",
+    lbl_mixes_before: "Mixes before line start",
+    lbl_biga_ferm: "Biga fermentation (hours)",
+    lbl_line_start: "Product start on line",
+    hint_biga_per_mix: "kg of biga per 1 mix",
+    hint_total_mixes: "total mixes planned",
+    hint_cycle_time: "one cycle time in seconds",
+    hint_dough_ferm: "after mixing",
+    hint_travel: "dough transport",
+    hint_mixes_before: "ready at line start",
+    hint_biga_ferm: "11–13 h, ideal 12",
+    hint_line_start: "line start time",
+    btn_calc: "CALCULATE",
+    res_total_biga: "Total biga",
+    res_barrels: "Barrels",
+    res_mix_hr: "Mixes / hour",
+    res_total_time: "Total time",
+    res_barrel_interval: "Barrel interval",
+    res_first_biga: "First biga start",
+    res_first_mix: "First dough mix",
+    res_line_start2: "Line start",
+    unit_kg: "kg",
+    unit_barrels: "× 300 kg",
+    unit_mix_hr: "mixes",
+    unit_hr_min: "h:min",
+    unit_min_sec: "min:sec",
+    th_num: "#",
+    th_start: "Start",
+    th_ready: "Ready",
+    err_fields: "Please fill all fields correctly",
+    err_ferm: "Biga fermentation must be 11–13 hours",
+    prev_day: "previous day"
+  }
+};
+
+let lang = "ru";
+
+function toggleLang() {
+  lang = lang === "ru" ? "en" : "ru";
+  document.getElementById("langBtn").textContent = lang === "ru" ? "EN" : "RU";
+  applyLang();
+}
+
+function applyLang() {
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (i18n[lang][key]) el.textContent = i18n[lang][key];
+  });
+}
+
+function fmtTime(totalMinutes) {
+  // totalMinutes can be negative (previous day)
+  let mins = totalMinutes;
+  let prevDay = false;
+  if (mins < 0) { mins += 1440; prevDay = true; }
+  if (mins >= 1440) { mins -= 1440; }
+  const h = Math.floor(mins / 60);
+  const m = Math.floor(mins % 60);
+  const time = String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0");
+  return { time, prevDay };
+}
+
+function showError(msg) {
+  const el = document.getElementById("errorMsg");
+  el.textContent = msg;
+  el.style.display = "block";
+}
+
+function hideError() {
+  document.getElementById("errorMsg").style.display = "none";
+}
+
+function calculate() {
+  hideError();
+
+  const bigaPerMix = parseFloat(document.getElementById("bigaPerMix").value);
+  const totalMixes = parseInt(document.getElementById("totalMixes").value);
+  const cycleTimeSec = parseFloat(document.getElementById("cycleTime").value);
+  const doughFermMin = parseFloat(document.getElementById("doughFerm").value);
+  const travelMin = parseFloat(document.getElementById("travelTime").value);
+  const mixesBefore = parseInt(document.getElementById("mixesBefore").value);
+  const bigaFermHrs = parseFloat(document.getElementById("bigaFerm").value);
+  const lineStartStr = document.getElementById("lineStart").value;
+
+  // Validate
+  if ([bigaPerMix, totalMixes, cycleTimeSec, doughFermMin, travelMin, mixesBefore, bigaFermHrs].some(v => isNaN(v) || v <= 0)) {
+    showError(i18n[lang].err_fields);
+    return;
+  }
+  if (bigaFermHrs < 11 || bigaFermHrs > 13) {
+    showError(i18n[lang].err_ferm);
+    return;
+  }
+  if (!lineStartStr) {
+    showError(i18n[lang].err_fields);
+    return;
+  }
+
+  const [startH, startM] = lineStartStr.split(":").map(Number);
+  const lineStartMin = startH * 60 + startM;
+
+  // Calculations
+  const totalBiga = bigaPerMix * totalMixes;
+  const barrels = Math.ceil(totalBiga / 300);
+  const mixesPerHour = 3600 / cycleTimeSec;
+  const totalProductionSec = totalMixes * cycleTimeSec;
+  const totalProductionMin = totalProductionSec / 60;
+  const totalProdH = Math.floor(totalProductionMin / 60);
+  const totalProdM = Math.round(totalProductionMin % 60);
+
+  // Barrel interval
+  const barrelIntervalSec = totalProductionSec / barrels;
+  const barrelIntMin = Math.floor(barrelIntervalSec / 60);
+  const barrelIntSec = Math.round(barrelIntervalSec % 60);
+
+  // First dough mix time
+  const cycleTimeMin = cycleTimeSec / 60;
+  const firstMixMin = lineStartMin - doughFermMin - travelMin - ((mixesBefore - 1) * cycleTimeMin);
+
+  // First biga start
+  const bigaFermMin = bigaFermHrs * 60;
+  const firstBigaMin = firstMixMin - bigaFermMin;
+
+  // Display results
+  document.getElementById("rTotalBiga").textContent = totalBiga.toLocaleString();
+  document.getElementById("rBarrels").textContent = barrels;
+  document.getElementById("rMixHr").textContent = mixesPerHour.toFixed(1);
+  document.getElementById("rTotalTime").textContent = totalProdH + ":" + String(totalProdM).padStart(2, "0");
+  document.getElementById("rInterval").textContent = barrelIntMin + ":" + String(barrelIntSec).padStart(2, "0");
+
+  const firstBiga = fmtTime(firstBigaMin);
+  document.getElementById("rFirstBiga").textContent = firstBiga.time;
+  document.getElementById("rFirstBigaDate").textContent = firstBiga.prevDay ? i18n[lang].prev_day : "";
+
+  const firstMix = fmtTime(firstMixMin);
+  document.getElementById("rFirstMix").textContent = firstMix.time;
+  document.getElementById("rFirstMixDate").textContent = firstMix.prevDay ? i18n[lang].prev_day : "";
+
+  document.getElementById("rLineStart").textContent = lineStartStr;
+
+  // Schedule table
+  const tbody = document.getElementById("scheduleBody");
+  tbody.innerHTML = "";
+  const barrelIntervalMin = barrelIntervalSec / 60;
+
+  for (let i = 0; i < barrels; i++) {
+    const startMin = firstBigaMin + i * barrelIntervalMin;
+    const readyMin = startMin + bigaFermMin;
+    const s = fmtTime(startMin);
+    const r = fmtTime(readyMin);
+
+    const tr = document.createElement("tr");
+    tr.innerHTML =
+      `<td>${i + 1}</td>` +
+      `<td class="time-big">${s.time}${s.prevDay ? ' <span class="ferm-warn">(' + i18n[lang].prev_day + ')</span>' : ''}</td>` +
+      `<td class="time-big">${r.time}${r.prevDay ? ' <span class="ferm-warn">(' + i18n[lang].prev_day + ')</span>' : ''}</td>`;
+    tbody.appendChild(tr);
+  }
+
+  document.getElementById("results").style.display = "block";
+  document.getElementById("results").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+// Register Service Worker for PWA / offline
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js');
+}
+</script>
+
+</body>
+</html>
