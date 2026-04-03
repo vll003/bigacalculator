@@ -611,7 +611,6 @@
 
 <div class="nav-tabs">
   <button class="nav-tab active" onclick="switchTab('calc')" id="tabCalc" data-i18n="tab_calc">КАЛЬКУЛЯТОР</button>
-  <button class="nav-tab" onclick="switchTab('gap')" id="tabGap" data-i18n="tab_gap">CHANGE OVER</button>
   <button class="nav-tab" onclick="switchTab('history')" id="tabHistory" data-i18n="tab_history">ИСТОРИЯ</button>
 </div>
 
@@ -771,121 +770,6 @@
   </div>
 </div>
 
-<!-- CHANGE OVER / GAP PAGE -->
-<div class="page" id="pageGap">
-  <div class="container">
-
-    <div class="section">
-      <div class="section-header">
-        <div class="section-icon">&#9203;</div>
-        <div class="section-title" data-i18n="gap_section_cur">ТЕКУЩИЙ ПРОДУКТ</div>
-      </div>
-      <div class="form-grid">
-        <div class="field">
-          <label data-i18n="gap_lbl_last_mix">Закрытие последнего микса</label>
-          <div class="input-wrap">
-            <input type="time" id="gapLastMix" value="">
-          </div>
-        </div>
-        <div class="field">
-          <label data-i18n="gap_lbl_cur_cycle">Цикл тайм</label>
-          <div class="input-wrap">
-            <input type="number" id="gapCurCycle" value="" min="1" step="1" inputmode="numeric" placeholder="405">
-            <span class="input-unit" data-i18n="u_sec">сек</span>
-          </div>
-        </div>
-        <div class="field">
-          <label data-i18n="gap_lbl_cur_ferm">Ферментация теста</label>
-          <div class="input-wrap">
-            <input type="number" id="gapCurFerm" value="" min="0" step="1" inputmode="numeric" placeholder="35">
-            <span class="input-unit" data-i18n="u_min">мин</span>
-          </div>
-        </div>
-        <div class="field">
-          <label data-i18n="gap_lbl_cur_travel">Путь до линии</label>
-          <div class="input-wrap">
-            <input type="number" id="gapCurTravel" value="" min="0" step="1" inputmode="numeric" placeholder="7">
-            <span class="input-unit" data-i18n="u_min">мин</span>
-          </div>
-        </div>
-        <div class="field">
-          <label data-i18n="gap_lbl_plan">Gap по плану</label>
-          <div class="input-wrap">
-            <input type="number" id="gapPlan" value="" min="0" step="1" inputmode="numeric" placeholder="30">
-            <span class="input-unit" data-i18n="u_min">мин</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header">
-        <div class="section-icon">&#9733;</div>
-        <div class="section-title" data-i18n="gap_section_new">НОВЫЙ ПРОДУКТ</div>
-      </div>
-      <div class="form-grid">
-        <div class="field">
-          <label data-i18n="gap_lbl_new_cycle">Цикл тайм</label>
-          <div class="input-wrap">
-            <input type="number" id="gapNewCycle" value="" min="1" step="1" inputmode="numeric" placeholder="405">
-            <span class="input-unit" data-i18n="u_sec">сек</span>
-          </div>
-        </div>
-        <div class="field">
-          <label data-i18n="gap_lbl_new_mix_time">Время замеса (микс)</label>
-          <div class="input-wrap">
-            <input type="number" id="gapNewMixTime" value="" min="1" step="1" inputmode="numeric" placeholder="180">
-            <span class="input-unit" data-i18n="u_sec">сек</span>
-          </div>
-        </div>
-        <div class="field">
-          <label data-i18n="gap_lbl_new_ferm">Ферментация теста</label>
-          <div class="input-wrap">
-            <input type="number" id="gapNewFerm" value="" min="0" step="1" inputmode="numeric" placeholder="35">
-            <span class="input-unit" data-i18n="u_min">мин</span>
-          </div>
-        </div>
-        <div class="field">
-          <label data-i18n="gap_lbl_new_travel">Путь до линии</label>
-          <div class="input-wrap">
-            <input type="number" id="gapNewTravel" value="" min="0" step="1" inputmode="numeric" placeholder="7">
-            <span class="input-unit" data-i18n="u_min">мин</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="error-msg" id="gapErrorMsg"></div>
-
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="calculateGap()" data-i18n="btn_calc">ПОСЧИТАТЬ</button>
-      <button class="btn btn-secondary" onclick="resetGap()" data-i18n="btn_reset">СБРОС</button>
-    </div>
-
-    <div id="gapResults" style="display:none">
-      <div class="section">
-        <div class="section-header">
-          <div class="section-icon">&#9878;</div>
-          <div class="section-title" data-i18n="gap_section_results">РЕЗУЛЬТАТЫ CHANGE OVER</div>
-        </div>
-        <div class="results-grid results-2col">
-          <div class="result-card hl">
-            <div class="r-label" data-i18n="gap_res_line_start">Старт нового продукта на линии</div>
-            <div class="r-value" id="gapRLineStart">—</div>
-            <div class="r-unit" id="gapRLineStartNote"></div>
-          </div>
-          <div class="result-card hl">
-            <div class="r-label" data-i18n="gap_res_first_mix">Закрытие первого микса</div>
-            <div class="r-value" id="gapRFirstMix">—</div>
-            <div class="r-unit" id="gapRFirstMixNote"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 <!-- HISTORY PAGE -->
 <div class="page" id="pageHistory">
   <div class="container">
@@ -925,23 +809,7 @@ const i18n = {
     hist_cycle: "Цикл тайм", hist_ferm_dough: "Ферм. теста",
     hist_ferm_biga: "Ферм. биги", hist_travel: "Путь до линии",
     hist_total_time: "Общее время", hist_mix_hr: "Миксов/час",
-    hist_clear: "Очистить всё", hist_clear_confirm: "Удалить всю историю?",
-    tab_gap: "CHANGE OVER",
-    gap_section_cur: "ТЕКУЩИЙ ПРОДУКТ",
-    gap_section_new: "НОВЫЙ ПРОДУКТ",
-    gap_lbl_last_mix: "Закрытие последнего микса",
-    gap_lbl_cur_cycle: "Цикл тайм",
-    gap_lbl_cur_ferm: "Ферментация теста",
-    gap_lbl_cur_travel: "Путь до линии",
-    gap_lbl_plan: "Gap по плану",
-    gap_lbl_new_cycle: "Цикл тайм",
-    gap_lbl_new_mix_time: "Время замеса (микс)",
-    gap_lbl_new_ferm: "Ферментация теста",
-    gap_lbl_new_travel: "Путь до линии",
-    gap_section_results: "РЕЗУЛЬТАТЫ CHANGE OVER",
-    gap_res_line_start: "Старт нового продукта на линии",
-    gap_res_first_mix: "Закрытие первого микса",
-    gap_err: "Заполните все поля корректно"
+    hist_clear: "Очистить всё", hist_clear_confirm: "Удалить всю историю?"
   },
   en: {
     tab_calc: "CALCULATOR", tab_history: "HISTORY",
@@ -972,23 +840,7 @@ const i18n = {
     hist_cycle: "Cycle time", hist_ferm_dough: "Dough ferm.",
     hist_ferm_biga: "Biga ferm.", hist_travel: "Travel to line",
     hist_total_time: "Total time", hist_mix_hr: "Mixes/hr",
-    hist_clear: "Clear all", hist_clear_confirm: "Delete all history?",
-    tab_gap: "CHANGE OVER",
-    gap_section_cur: "CURRENT PRODUCT",
-    gap_section_new: "NEW PRODUCT",
-    gap_lbl_last_mix: "Last mix closing time",
-    gap_lbl_cur_cycle: "Cycle time",
-    gap_lbl_cur_ferm: "Dough fermentation",
-    gap_lbl_cur_travel: "Travel to line",
-    gap_lbl_plan: "Planned gap",
-    gap_lbl_new_cycle: "Cycle time",
-    gap_lbl_new_mix_time: "Mix time (mixing)",
-    gap_lbl_new_ferm: "Dough fermentation",
-    gap_lbl_new_travel: "Travel to line",
-    gap_section_results: "CHANGE OVER RESULTS",
-    gap_res_line_start: "New product line start",
-    gap_res_first_mix: "First mix closing time",
-    gap_err: "Please fill all fields correctly"
+    hist_clear: "Clear all", hist_clear_confirm: "Delete all history?"
   }
 };
 
@@ -1016,9 +868,6 @@ function switchTab(tab) {
   if (tab === 'calc') {
     document.getElementById('tabCalc').classList.add('active');
     document.getElementById('pageCalc').classList.add('active');
-  } else if (tab === 'gap') {
-    document.getElementById('tabGap').classList.add('active');
-    document.getElementById('pageGap').classList.add('active');
   } else {
     document.getElementById('tabHistory').classList.add('active');
     document.getElementById('pageHistory').classList.add('active');
@@ -1254,65 +1103,6 @@ function renderHistory() {
 
   html += `<div class="history-clear-row"><button class="btn-clear-all" onclick="clearHistory()">${t("hist_clear")}</button></div>`;
   list.innerHTML = html;
-}
-
-/* ========== GAP / CHANGE OVER ========== */
-function resetGap() {
-  ["gapLastMix","gapCurCycle","gapCurFerm","gapCurTravel","gapPlan","gapNewCycle","gapNewMixTime","gapNewFerm","gapNewTravel"].forEach(id => {
-    document.getElementById(id).value = "";
-  });
-  document.getElementById("gapResults").style.display = "none";
-  document.getElementById("gapErrorMsg").style.display = "none";
-}
-
-function calculateGap() {
-  document.getElementById("gapErrorMsg").style.display = "none";
-
-  const lastMixStr = document.getElementById("gapLastMix").value;
-  // Текущий продукт
-  const curCycleSec = parseFloat(document.getElementById("gapCurCycle").value);
-  const curFermMin = parseFloat(document.getElementById("gapCurFerm").value);
-  const curTravelMin = parseFloat(document.getElementById("gapCurTravel").value);
-  const gapPlanMin = parseFloat(document.getElementById("gapPlan").value);
-  // Новый продукт
-  const newCycleSec = parseFloat(document.getElementById("gapNewCycle").value);
-  const newMixTimeSec = parseFloat(document.getElementById("gapNewMixTime").value);
-  const newFermMin = parseFloat(document.getElementById("gapNewFerm").value);
-  const newTravelMin = parseFloat(document.getElementById("gapNewTravel").value);
-
-  if (!lastMixStr ||
-      [curCycleSec, curFermMin, curTravelMin, gapPlanMin, newCycleSec, newMixTimeSec, newFermMin, newTravelMin]
-        .some(x => isNaN(x) || x < 0) || curCycleSec < 1 || newCycleSec < 1 || newMixTimeSec < 1) {
-    const el = document.getElementById("gapErrorMsg");
-    el.textContent = t("gap_err");
-    el.style.display = "block";
-    return;
-  }
-
-  const [lh, lm] = lastMixStr.split(":").map(Number);
-  const lastMixMin = lh * 60 + lm;
-  const curCycleMin = curCycleSec / 60;
-  const newCycleMin = newCycleSec / 60;
-  const newMixTimeMin = newMixTimeSec / 60;
-
-  // Старт нового продукта на линии =
-  // закрытие последнего микса + цикл текущего×2 + ферм текущего + путь текущего + gap
-  const newLineStartMin = lastMixMin + (curCycleMin * 2 + curFermMin + curTravelMin + gapPlanMin);
-
-  // Закрытие первого микса нового продукта =
-  // старт на линии - ферм нового - путь нового - (время замеса + цикл тайм нового)
-  const firstMixCloseMin = newLineStartMin - newFermMin - newTravelMin - (newMixTimeMin + newCycleMin);
-
-  const ls = fmtTime(newLineStartMin);
-  document.getElementById("gapRLineStart").textContent = ls.time;
-  document.getElementById("gapRLineStartNote").textContent = ls.prevDay ? t("prev_day") : "";
-
-  const fm = fmtTime(firstMixCloseMin);
-  document.getElementById("gapRFirstMix").textContent = fm.time;
-  document.getElementById("gapRFirstMixNote").textContent = fm.prevDay ? t("prev_day") : "";
-
-  document.getElementById("gapResults").style.display = "block";
-  document.getElementById("gapResults").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 /* ========== SERVICE WORKER ========== */
