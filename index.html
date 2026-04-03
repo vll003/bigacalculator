@@ -1239,8 +1239,8 @@ function calculateGap() {
   const cycleMin = cycleSec / 60;
 
   // Время старта нового продукта на линии =
-  // закрытие последнего микса - (цикл×2 + ферментация + путь + gap)
-  const newLineStartMin = lastMixMin - (cycleMin * 2 + fermMin + travelMin + gapPlanMin);
+  // закрытие последнего микса + цикл×2 + ферментация + путь + gap
+  const newLineStartMin = lastMixMin + (cycleMin * 2 + fermMin + travelMin + gapPlanMin);
 
   // Время закрытия первого микса нового продукта =
   // старт на линии - ферментация - путь - цикл тайм
