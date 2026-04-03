@@ -2,425 +2,281 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Biga Calculator</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#f59e0b">
+<meta name="theme-color" content="#0a0a0c">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Biga Calc">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #111113;
-    --bg2: #1a1a1e;
-    --bg3: #242428;
-    --bg4: #2e2e34;
-    --accent: #f59e0b;
-    --accent2: #d97706;
-    --accent-dim: rgba(245,158,11,0.1);
-    --accent-dim2: rgba(245,158,11,0.06);
-    --text: #eaeaef;
-    --text2: #8e8e9a;
-    --text3: #5a5a66;
-    --border: #2a2a30;
-    --border2: #363640;
-    --success: #22c55e;
-    --error: #ef4444;
-    --error-dim: rgba(239,68,68,0.08);
-    --radius: 14px;
-    --radius-sm: 10px;
-    --shadow: 0 2px 12px rgba(0,0,0,0.3);
-    --transition: 0.2s cubic-bezier(0.4,0,0.2,1);
+    --bg: #0a0a0c;
+    --surface: #131316;
+    --surface2: #1a1a1f;
+    --surface3: #222228;
+    --surface4: #2c2c34;
+    --amber: #f59e0b;
+    --amber-hover: #e8930a;
+    --amber-glow: rgba(245,158,11,0.15);
+    --amber-faint: rgba(245,158,11,0.07);
+    --text: #f0f0f5;
+    --text2: #9898a8;
+    --text3: #5c5c6e;
+    --border: rgba(255,255,255,0.06);
+    --border2: rgba(255,255,255,0.1);
+    --red: #f43f5e;
+    --red-bg: rgba(244,63,94,0.08);
+    --green: #10b981;
+    --radius: 16px;
+    --radius-sm: 12px;
+    --radius-xs: 8px;
+    --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --safe-b: env(safe-area-inset-bottom, 0px);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
   body {
-    font-family: -apple-system, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
     min-height: 100dvh;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
 
-  /* HEADER */
+  /* ===== HEADER ===== */
   header {
-    background: var(--bg2);
-    border-bottom: 2px solid var(--accent);
+    background: rgba(13,13,15,0.85);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
     padding: 14px 20px;
+    padding-top: calc(14px + env(safe-area-inset-top, 0px));
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .logo-icon {
-    width: 36px;
-    height: 36px;
-    background: var(--accent);
-    border-radius: 9px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 19px;
-    font-weight: 800;
-    color: var(--bg);
-  }
-
-  .logo h1 {
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-
-  .header-actions {
-    display: flex;
-    gap: 8px;
-  }
-
-  .header-btn {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    color: var(--text2);
-    padding: 6px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    transition: all var(--transition);
-  }
-
-  .header-btn:hover, .header-btn:active { background: var(--bg4); color: var(--text); }
-
-  /* NAV TABS */
-  .nav-tabs {
-    display: flex;
-    background: var(--bg2);
     border-bottom: 1px solid var(--border);
-    padding: 0 16px;
-    gap: 0;
   }
 
-  .nav-tab {
+  .logo { display: flex; align-items: center; gap: 10px; }
+
+  .logo-mark {
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: 900; color: #000;
+    box-shadow: 0 2px 10px rgba(245,158,11,0.25);
+  }
+
+  .logo-text { font-size: 16px; font-weight: 800; letter-spacing: 0.3px; color: var(--text); }
+
+  .lang-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    color: var(--text2);
+    padding: 5px 12px;
+    border-radius: var(--radius-xs);
+    cursor: pointer;
+    font: 600 12px/1 'Inter', sans-serif;
+    letter-spacing: 0.5px;
+    transition: all 0.2s var(--ease);
+  }
+  .lang-btn:active { background: var(--surface3); color: var(--text); transform: scale(0.95); }
+
+  /* ===== TABS ===== */
+  .tabs {
+    display: flex;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+    position: sticky;
+    top: 63px;
+    z-index: 99;
+  }
+
+  .tab {
     flex: 1;
-    padding: 12px 8px;
+    padding: 13px 0;
     text-align: center;
-    font-size: 13px;
-    font-weight: 600;
+    font: 600 11px/1 'Inter', sans-serif;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
     color: var(--text3);
     cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: all var(--transition);
-    background: none;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .nav-tab.active {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-  }
-
-  .nav-tab:hover { color: var(--text2); }
-
-  /* PAGES */
-  .page { display: none; }
-  .page.active { display: block; }
-
-  .container {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 16px 16px 100px;
-  }
-
-  /* SECTIONS */
-  .section {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px;
-    margin-bottom: 14px;
-    box-shadow: var(--shadow);
-  }
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 14px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .section-icon {
-    width: 28px;
-    height: 28px;
-    background: var(--accent-dim);
-    border-radius: 7px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    flex-shrink: 0;
-  }
-
-  .section-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  /* FORM */
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .field.full { grid-column: 1 / -1; }
-
-  .field label {
-    font-size: 12px;
-    color: var(--text2);
-    font-weight: 600;
-    letter-spacing: 0.2px;
-  }
-
-  .input-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  .field input {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 11px 12px;
-    color: var(--text);
-    font-size: 16px;
-    font-weight: 600;
-    transition: border-color var(--transition), box-shadow var(--transition);
-    width: 100%;
-    -webkit-appearance: none;
-  }
-
-  .field input:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-dim);
-  }
-
-  .input-unit {
-    position: absolute;
-    right: 12px;
-    font-size: 12px;
-    color: var(--text3);
-    font-weight: 600;
-    pointer-events: none;
-  }
-
-  .field input[type="time"] {
-    color-scheme: dark;
-  }
-
-  /* BUTTONS */
-  .btn-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-
-  .btn {
-    flex: 1;
-    padding: 14px;
     border: none;
-    border-radius: var(--radius-sm);
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: all var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    background: none;
+    position: relative;
+    transition: color 0.25s var(--ease);
   }
 
-  .btn-primary {
-    background: var(--accent);
-    color: var(--bg);
-    flex: 3;
+  .tab::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 20%; right: 20%;
+    height: 2px;
+    background: var(--amber);
+    border-radius: 2px 2px 0 0;
+    transform: scaleX(0);
+    transition: transform 0.3s var(--ease);
   }
 
-  .btn-primary:hover { background: var(--accent2); }
-  .btn-primary:active { transform: scale(0.98); }
+  .tab.active { color: var(--amber); }
+  .tab.active::after { transform: scaleX(1); }
 
-  .btn-secondary {
-    background: var(--bg3);
-    color: var(--text2);
-    border: 1px solid var(--border);
-    flex: 1;
-  }
+  /* ===== LAYOUT ===== */
+  .page { display: none; }
+  .page.active { display: block; animation: pageIn 0.35s var(--ease); }
 
-  .btn-secondary:hover { background: var(--bg4); color: var(--text); }
-
-  /* RESULTS */
-  #results { display: none; animation: fadeIn 0.3s ease; }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .results-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+  .wrap {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 16px calc(32px + var(--safe-b));
+  }
+
+  /* ===== CARD ===== */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
     margin-bottom: 12px;
   }
 
-  .result-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 12px 8px;
-    text-align: center;
-    transition: all var(--transition);
+  .card-head {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 18px;
   }
 
-  .result-card .r-label {
-    font-size: 10px;
-    color: var(--text3);
-    margin-bottom: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-weight: 600;
-    line-height: 1.3;
+  .card-icon {
+    width: 32px; height: 32px;
+    background: var(--amber-faint);
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
   }
 
-  .result-card .r-value {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--accent);
-    line-height: 1.1;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .result-card .r-unit {
+  .card-title {
     font-size: 11px;
-    color: var(--text3);
-    margin-top: 2px;
-    font-weight: 500;
+    font-weight: 700;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
   }
 
-  .result-card.hl {
-    border-color: var(--accent);
-    background: var(--accent-dim2);
+  /* ===== FORM ===== */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .field { display: flex; flex-direction: column; gap: 5px; }
+
+  .field label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text2);
+    letter-spacing: 0.2px;
   }
 
-  .results-2col {
-    grid-template-columns: 1fr 1fr;
-  }
+  .inp-wrap { position: relative; }
 
-  /* SCHEDULE TABLE */
-  .schedule-wrap {
-    overflow-x: auto;
-    max-height: 350px;
-    overflow-y: auto;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-    -webkit-overflow-scrolling: touch;
-  }
-
-  table {
+  .field input {
     width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
+    background: var(--bg);
+    border: 1.5px solid var(--border2);
+    border-radius: var(--radius-xs);
+    padding: 12px 14px;
+    padding-right: 40px;
+    color: var(--text);
+    font: 600 15px/1.2 'Inter', sans-serif;
+    transition: all 0.2s var(--ease);
+    -webkit-appearance: none;
   }
 
-  thead { position: sticky; top: 0; z-index: 2; }
+  .field input::placeholder { color: var(--text3); font-weight: 500; }
 
-  th {
-    background: var(--bg3);
-    color: var(--accent);
-    padding: 10px 12px;
-    text-align: center;
-    font-weight: 700;
+  .field input:focus {
+    outline: none;
+    border-color: var(--amber);
+    box-shadow: 0 0 0 3px var(--amber-glow);
+  }
+
+  .inp-unit {
+    position: absolute;
+    right: 14px; top: 50%; transform: translateY(-50%);
     font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    border-bottom: 2px solid var(--accent);
-  }
-
-  td {
-    padding: 9px 12px;
-    text-align: center;
-    border-bottom: 1px solid var(--border);
-    font-weight: 500;
-    font-variant-numeric: tabular-nums;
-  }
-
-  tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
-
-  .t-num {
+    font-weight: 700;
     color: var(--text3);
-    font-weight: 700;
-    font-size: 12px;
+    pointer-events: none;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
   }
 
-  .t-time {
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--accent);
-  }
+  .field input[type="time"] { color-scheme: dark; padding-right: 14px; }
 
-  .t-prev {
-    color: var(--accent2);
-    font-size: 10px;
-    font-weight: 600;
-    display: block;
-    opacity: 0.7;
-  }
+  /* ===== BUTTONS ===== */
+  .actions { display: flex; gap: 10px; margin-bottom: 12px; }
 
-  /* ERROR */
-  .error-msg {
-    background: var(--error-dim);
-    border: 1px solid var(--error);
-    color: var(--error);
-    padding: 10px 14px;
+  .btn-main {
+    flex: 3;
+    padding: 15px;
+    background: linear-gradient(135deg, #f59e0b, #f97316);
+    color: #000;
+    border: none;
     border-radius: var(--radius-sm);
-    margin-bottom: 14px;
-    font-weight: 600;
-    font-size: 13px;
+    font: 700 14px/1 'Inter', sans-serif;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s var(--ease);
+    box-shadow: 0 4px 20px rgba(245,158,11,0.25);
+  }
+
+  .btn-main:hover { box-shadow: 0 4px 24px rgba(245,158,11,0.35); }
+  .btn-main:active { transform: scale(0.98); }
+
+  .btn-ghost {
+    flex: 1;
+    padding: 15px;
+    background: var(--surface2);
+    color: var(--text2);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    font: 600 12px/1 'Inter', sans-serif;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s var(--ease);
+  }
+
+  .btn-ghost:active { background: var(--surface3); color: var(--text); transform: scale(0.97); }
+
+  /* ===== ERROR ===== */
+  .error {
+    background: var(--red-bg);
+    border: 1px solid rgba(244,63,94,0.2);
+    color: var(--red);
+    padding: 12px 16px;
+    border-radius: var(--radius-xs);
+    margin-bottom: 12px;
+    font: 600 13px/1.4 'Inter', sans-serif;
     display: none;
-    animation: shake 0.3s ease;
+    animation: shake 0.35s var(--ease);
   }
 
   @keyframes shake {
@@ -429,171 +285,216 @@
     75% { transform: translateX(4px); }
   }
 
-  /* HISTORY */
-  .history-empty {
+  /* ===== RESULTS ===== */
+  #results { display: none; animation: pageIn 0.4s var(--ease); }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .stat-grid-2 { grid-template-columns: 1fr 1fr; }
+
+  .stat {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 10px;
     text-align: center;
-    padding: 40px 20px;
+    transition: all 0.2s var(--ease);
+  }
+
+  .stat.primary {
+    border-color: rgba(245,158,11,0.2);
+    background: linear-gradient(170deg, var(--amber-faint), transparent);
+  }
+
+  .stat-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .stat-value {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--amber);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat.primary .stat-value { font-size: 28px; }
+
+  .stat-unit {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text3);
+    margin-top: 4px;
+  }
+
+  .stat-note {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--amber-hover);
+    margin-top: 2px;
+  }
+
+  /* ===== SCHEDULE TABLE ===== */
+  .table-wrap {
+    overflow: auto;
+    max-height: 380px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead { position: sticky; top: 0; z-index: 2; }
+
+  th {
+    background: var(--surface3);
+    color: var(--amber);
+    padding: 11px 16px;
+    text-align: center;
+    font: 700 10px/1 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid rgba(245,158,11,0.3);
+  }
+
+  td {
+    padding: 10px 16px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    font-variant-numeric: tabular-nums;
+  }
+
+  tr:nth-child(even) td { background: rgba(255,255,255,0.012); }
+
+  .td-num { color: var(--text3); font-weight: 700; font-size: 12px; }
+  .td-time { font-weight: 700; font-size: 14px; color: var(--text); }
+  .td-prev { display: block; font-size: 9px; font-weight: 600; color: var(--amber-hover); opacity: 0.7; }
+
+  /* ===== HISTORY ===== */
+  .hist-empty {
+    text-align: center;
+    padding: 60px 24px;
     color: var(--text3);
   }
 
-  .history-empty-icon {
-    font-size: 40px;
-    margin-bottom: 12px;
-    opacity: 0.3;
-  }
+  .hist-empty svg { width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.2; }
+  .hist-empty p { font-size: 14px; font-weight: 500; }
+  .hist-empty small { font-size: 12px; color: var(--text3); opacity: 0.6; display: block; margin-top: 6px; }
 
-  .history-empty p {
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  .history-item {
-    background: var(--bg2);
+  .hist-card {
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     overflow: hidden;
-    transition: all var(--transition);
   }
 
-  .history-header {
+  .hist-head {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 12px 14px;
+    padding: 14px 16px;
     cursor: pointer;
-    gap: 10px;
+    gap: 12px;
+    transition: background 0.15s;
   }
 
-  .history-header:hover { background: var(--accent-dim2); }
+  .hist-head:active { background: var(--amber-faint); }
 
-  .history-meta {
-    flex: 1;
-    min-width: 0;
-  }
+  .hist-info { flex: 1; min-width: 0; }
+  .hist-date { font-size: 10px; font-weight: 600; color: var(--text3); letter-spacing: 0.3px; }
+  .hist-sum { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  .history-date {
-    font-size: 11px;
-    color: var(--text3);
-    font-weight: 500;
-  }
-
-  .history-summary {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .history-badges {
-    display: flex;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-
-  .history-badge {
-    background: var(--accent-dim);
-    color: var(--accent);
-    padding: 3px 8px;
+  .hist-tag {
+    background: var(--amber-glow);
+    color: var(--amber);
+    padding: 4px 10px;
     border-radius: 6px;
-    font-size: 11px;
-    font-weight: 700;
+    font: 700 11px/1 'Inter', sans-serif;
     white-space: nowrap;
-  }
-
-  .history-actions {
-    display: flex;
-    gap: 4px;
     flex-shrink: 0;
   }
 
-  .history-btn {
-    background: var(--bg3);
-    border: 1px solid var(--border);
+  .hist-btns { display: flex; gap: 4px; flex-shrink: 0; }
+
+  .hist-btn {
+    width: 34px; height: 34px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
     color: var(--text3);
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
+    border-radius: var(--radius-xs);
     cursor: pointer;
     font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all var(--transition);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
   }
 
-  .history-btn:hover { background: var(--bg4); color: var(--text); }
-  .history-btn.delete:hover { background: var(--error-dim); color: var(--error); border-color: var(--error); }
+  .hist-btn:active { background: var(--surface3); color: var(--text); transform: scale(0.92); }
+  .hist-btn.del:active { background: var(--red-bg); color: var(--red); border-color: rgba(244,63,94,0.2); }
 
-  .history-detail {
+  .hist-detail {
     display: none;
-    padding: 0 14px 14px;
+    padding: 0 16px 16px;
     border-top: 1px solid var(--border);
   }
 
-  .history-detail.open { display: block; }
+  .hist-detail.open { display: block; animation: pageIn 0.25s var(--ease); }
 
-  .history-detail-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    margin-top: 10px;
-  }
+  .hd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 12px; }
 
-  .hd-item {
-    display: flex;
-    justify-content: space-between;
+  .hd-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 5px 0;
     font-size: 12px;
-    padding: 4px 0;
   }
 
-  .hd-label { color: var(--text3); }
-  .hd-val { color: var(--text); font-weight: 600; }
+  .hd-k { color: var(--text3); font-weight: 500; }
+  .hd-v { color: var(--text); font-weight: 700; font-variant-numeric: tabular-nums; }
 
-  .history-clear-row {
-    text-align: center;
-    padding: 10px;
+  .hist-clear-wrap { text-align: center; padding: 16px 0 8px; }
+
+  .btn-clear {
+    background: none; border: 1px solid var(--border2); color: var(--text3);
+    padding: 9px 24px; border-radius: var(--radius-xs);
+    cursor: pointer; font: 600 11px/1 'Inter', sans-serif; letter-spacing: 0.5px;
+    text-transform: uppercase; transition: all 0.15s;
   }
 
-  .btn-clear-all {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--text3);
-    padding: 8px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
-    transition: all var(--transition);
-  }
+  .btn-clear:active { border-color: rgba(244,63,94,0.3); color: var(--red); background: var(--red-bg); }
 
-  .btn-clear-all:hover { border-color: var(--error); color: var(--error); background: var(--error-dim); }
-
-  /* MOBILE */
+  /* ===== MOBILE ===== */
   @media (max-width: 600px) {
-    header { padding: 10px 14px; }
-    .logo-icon { width: 32px; height: 32px; font-size: 17px; border-radius: 8px; }
-    .logo h1 { font-size: 15px; }
-    .header-btn { padding: 5px 10px; font-size: 12px; }
-    .container { padding: 12px 10px 100px; }
-    .section { padding: 14px; margin-bottom: 10px; }
-    .form-grid { grid-template-columns: 1fr; gap: 10px; }
-    .results-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    .results-3col-mobile { grid-template-columns: repeat(2, 1fr); }
-    .result-card { padding: 10px 6px; }
-    .result-card .r-value { font-size: 20px; }
-    .result-card .r-label { font-size: 9px; }
-    .btn-row { gap: 8px; }
-    .btn { padding: 12px; font-size: 14px; }
-    .nav-tab { font-size: 12px; padding: 10px 6px; }
-    .history-detail-grid { grid-template-columns: 1fr; }
+    header { padding: 10px 16px; padding-top: calc(10px + env(safe-area-inset-top, 0px)); }
+    .logo-mark { width: 30px; height: 30px; font-size: 15px; border-radius: 8px; }
+    .logo-text { font-size: 14px; }
+    .tabs { top: 55px; padding: 0 16px; }
+    .wrap { padding: 12px 12px calc(24px + var(--safe-b)); }
+    .card { padding: 16px; margin-bottom: 10px; border-radius: 14px; }
+    .grid { grid-template-columns: 1fr; gap: 10px; }
+    .stat-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+    .stat { padding: 12px 8px; border-radius: 10px; }
+    .stat-value { font-size: 22px; }
+    .stat.primary .stat-value { font-size: 24px; }
+    .stat-label { font-size: 8px; }
+    .actions { gap: 8px; }
+    .btn-main { padding: 14px; font-size: 13px; border-radius: 10px; }
+    .btn-ghost { padding: 14px; border-radius: 10px; }
+    .hd-grid { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 380px) {
-    .results-grid { grid-template-columns: 1fr 1fr; }
-    .result-card .r-value { font-size: 18px; }
+    .stat-value { font-size: 19px; }
+    .stat.primary .stat-value { font-size: 21px; }
   }
 </style>
 </head>
@@ -601,162 +502,163 @@
 
 <header>
   <div class="logo">
-    <div class="logo-icon">B</div>
-    <h1>BIGA CALC</h1>
+    <div class="logo-mark">B</div>
+    <span class="logo-text">BIGA CALC</span>
   </div>
-  <div class="header-actions">
-    <button class="header-btn" onclick="toggleLang()" id="langBtn">EN</button>
-  </div>
+  <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
 </header>
 
-<div class="nav-tabs">
-  <button class="nav-tab active" onclick="switchTab('calc')" id="tabCalc" data-i18n="tab_calc">КАЛЬКУЛЯТОР</button>
-  <button class="nav-tab" onclick="switchTab('history')" id="tabHistory" data-i18n="tab_history">ИСТОРИЯ</button>
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('calc')" id="tabCalc" data-i18n="tab_calc">КАЛЬКУЛЯТОР</button>
+  <button class="tab" onclick="switchTab('history')" id="tabHistory" data-i18n="tab_history">ИСТОРИЯ</button>
 </div>
 
-<!-- CALCULATOR PAGE -->
+<!-- ===== CALCULATOR ===== -->
 <div class="page active" id="pageCalc">
-  <div class="container">
+  <div class="wrap">
 
-    <div class="section">
-      <div class="section-header">
-        <div class="section-icon">&#9881;</div>
-        <div class="section-title" data-i18n="section_product">ПРОДУКТ</div>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon">&#9881;</div>
+        <div class="card-title" data-i18n="section_product">ПРОДУКТ</div>
       </div>
-      <div class="form-grid">
+      <div class="grid">
         <div class="field">
           <label data-i18n="lbl_biga_per_mix">Вес биги на микс</label>
-          <div class="input-wrap">
+          <div class="inp-wrap">
             <input type="number" id="bigaPerMix" value="" min="1" step="0.1" inputmode="decimal" placeholder="35">
-            <span class="input-unit" data-i18n="u_kg">кг</span>
+            <span class="inp-unit" data-i18n="u_kg">кг</span>
           </div>
         </div>
         <div class="field">
           <label data-i18n="lbl_total_mixes">Количество миксов</label>
-          <div class="input-wrap">
+          <div class="inp-wrap">
             <input type="number" id="totalMixes" value="" min="1" step="1" inputmode="numeric" placeholder="85">
-            <span class="input-unit" data-i18n="u_pcs">шт</span>
+            <span class="inp-unit" data-i18n="u_pcs">шт</span>
           </div>
         </div>
         <div class="field">
           <label data-i18n="lbl_cycle_time">Цикл тайм продукта</label>
-          <div class="input-wrap">
+          <div class="inp-wrap">
             <input type="number" id="cycleTime" value="" min="1" step="1" inputmode="numeric" placeholder="405">
-            <span class="input-unit" data-i18n="u_sec">сек</span>
+            <span class="inp-unit" data-i18n="u_sec">сек</span>
           </div>
         </div>
         <div class="field">
           <label data-i18n="lbl_dough_ferm">Ферментация теста</label>
-          <div class="input-wrap">
+          <div class="inp-wrap">
             <input type="number" id="doughFerm" value="" min="0" step="1" inputmode="numeric" placeholder="35">
-            <span class="input-unit" data-i18n="u_min">мин</span>
+            <span class="inp-unit" data-i18n="u_min">мин</span>
           </div>
         </div>
         <div class="field">
           <label data-i18n="lbl_travel">Путь до линии</label>
-          <div class="input-wrap">
+          <div class="inp-wrap">
             <input type="number" id="travelTime" value="" min="0" step="1" inputmode="numeric" placeholder="7">
-            <span class="input-unit" data-i18n="u_min">мин</span>
+            <span class="inp-unit" data-i18n="u_min">мин</span>
           </div>
         </div>
         <div class="field">
           <label data-i18n="lbl_mixes_before">Миксов до старта линии</label>
-          <div class="input-wrap">
+          <div class="inp-wrap">
             <input type="number" id="mixesBefore" value="2" min="1" step="1" inputmode="numeric">
-            <span class="input-unit" data-i18n="u_pcs">шт</span>
+            <span class="inp-unit" data-i18n="u_pcs">шт</span>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-header">
-        <div class="section-icon">&#9201;</div>
-        <div class="section-title" data-i18n="section_biga">BIGA & РАСПИСАНИЕ</div>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon">&#9201;</div>
+        <div class="card-title" data-i18n="section_biga">BIGA & РАСПИСАНИЕ</div>
       </div>
-      <div class="form-grid">
+      <div class="grid">
         <div class="field">
           <label data-i18n="lbl_biga_ferm">Ферментация биги</label>
-          <div class="input-wrap">
+          <div class="inp-wrap">
             <input type="number" id="bigaFerm" value="12" min="11" max="13" step="0.5" inputmode="decimal">
-            <span class="input-unit" data-i18n="u_hr">ч</span>
+            <span class="inp-unit" data-i18n="u_hr">ч</span>
           </div>
         </div>
         <div class="field">
           <label data-i18n="lbl_line_start">Старт на линии</label>
-          <div class="input-wrap">
+          <div class="inp-wrap">
             <input type="time" id="lineStart" value="19:00">
           </div>
         </div>
       </div>
     </div>
 
-    <div class="error-msg" id="errorMsg"></div>
+    <div class="error" id="errorMsg"></div>
 
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="calculate()" data-i18n="btn_calc">ПОСЧИТАТЬ</button>
-      <button class="btn btn-secondary" onclick="resetForm()" data-i18n="btn_reset">СБРОС</button>
+    <div class="actions">
+      <button class="btn-main" onclick="calculate()" data-i18n="btn_calc">ПОСЧИТАТЬ</button>
+      <button class="btn-ghost" onclick="resetForm()" data-i18n="btn_reset">СБРОС</button>
     </div>
 
     <div id="results">
-      <div class="section">
-        <div class="section-header">
-          <div class="section-icon">&#9878;</div>
-          <div class="section-title" data-i18n="section_results">РЕЗУЛЬТАТЫ</div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon">&#9878;</div>
+          <div class="card-title" data-i18n="section_results">РЕЗУЛЬТАТЫ</div>
         </div>
-        <div class="results-grid results-3col-mobile">
-          <div class="result-card">
-            <div class="r-label" data-i18n="res_total_biga">Всего биги</div>
-            <div class="r-value" id="rTotalBiga">—</div>
-            <div class="r-unit" data-i18n="unit_kg">кг</div>
+
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat-label" data-i18n="res_total_biga">Всего биги</div>
+            <div class="stat-value" id="rTotalBiga">--</div>
+            <div class="stat-unit" data-i18n="unit_kg">кг</div>
           </div>
-          <div class="result-card hl">
-            <div class="r-label" data-i18n="res_barrels">Бочек</div>
-            <div class="r-value" id="rBarrels">—</div>
-            <div class="r-unit" data-i18n="unit_barrels">× 300 кг</div>
+          <div class="stat primary">
+            <div class="stat-label" data-i18n="res_barrels">Бочек</div>
+            <div class="stat-value" id="rBarrels">--</div>
+            <div class="stat-unit" data-i18n="unit_barrels">&times; 300 кг</div>
           </div>
-          <div class="result-card">
-            <div class="r-label" data-i18n="res_mix_hr">Миксов / час</div>
-            <div class="r-value" id="rMixHr">—</div>
-            <div class="r-unit" data-i18n="unit_mix_hr">миксов</div>
-          </div>
-        </div>
-        <div class="results-grid results-2col">
-          <div class="result-card">
-            <div class="r-label" data-i18n="res_total_time">Общее время</div>
-            <div class="r-value" id="rTotalTime">—</div>
-            <div class="r-unit" data-i18n="unit_hr_min">ч:мин</div>
-          </div>
-          <div class="result-card hl">
-            <div class="r-label" data-i18n="res_barrel_interval">Интервал бочек</div>
-            <div class="r-value" id="rInterval">—</div>
-            <div class="r-unit" data-i18n="unit_min_sec">мин:сек</div>
+          <div class="stat">
+            <div class="stat-label" data-i18n="res_mix_hr">Миксов / час</div>
+            <div class="stat-value" id="rMixHr">--</div>
+            <div class="stat-unit" data-i18n="unit_mix_hr">миксов</div>
           </div>
         </div>
-        <div class="results-grid results-2col" style="margin-bottom:0">
-          <div class="result-card hl">
-            <div class="r-label" data-i18n="res_first_biga">Старт первой биги</div>
-            <div class="r-value" id="rFirstBiga">—</div>
-            <div class="r-unit" id="rFirstBigaDate"></div>
+
+        <div class="stat-grid stat-grid-2">
+          <div class="stat">
+            <div class="stat-label" data-i18n="res_total_time">Общее время</div>
+            <div class="stat-value" id="rTotalTime">--</div>
+            <div class="stat-unit" data-i18n="unit_hr_min">ч:мин</div>
           </div>
-          <div class="result-card">
-            <div class="r-label" data-i18n="res_first_mix">Первый замес</div>
-            <div class="r-value" id="rFirstMix">—</div>
-            <div class="r-unit" id="rFirstMixDate"></div>
+          <div class="stat primary">
+            <div class="stat-label" data-i18n="res_barrel_interval">Интервал бочек</div>
+            <div class="stat-value" id="rInterval">--</div>
+            <div class="stat-unit" data-i18n="unit_min_sec">мин:сек</div>
+          </div>
+        </div>
+
+        <div class="stat-grid stat-grid-2" style="margin-bottom:0">
+          <div class="stat primary">
+            <div class="stat-label" data-i18n="res_first_biga">Старт первой биги</div>
+            <div class="stat-value" id="rFirstBiga">--</div>
+            <div class="stat-note" id="rFirstBigaDate"></div>
+          </div>
+          <div class="stat">
+            <div class="stat-label" data-i18n="res_first_mix">Первый замес</div>
+            <div class="stat-value" id="rFirstMix">--</div>
+            <div class="stat-note" id="rFirstMixDate"></div>
           </div>
         </div>
       </div>
 
-      <div class="section">
-        <div class="section-header">
-          <div class="section-icon">&#128203;</div>
-          <div class="section-title" data-i18n="section_schedule">РАСПИСАНИЕ БОЧЕК</div>
+      <div class="card">
+        <div class="card-head">
+          <div class="card-icon">&#128203;</div>
+          <div class="card-title" data-i18n="section_schedule">РАСПИСАНИЕ БОЧЕК</div>
         </div>
-        <div class="schedule-wrap">
+        <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th data-i18n="th_num">№</th>
+                <th data-i18n="th_num">#</th>
                 <th data-i18n="th_start">Запуск</th>
                 <th data-i18n="th_ready">Готовность</th>
               </tr>
@@ -770,15 +672,12 @@
   </div>
 </div>
 
-<!-- HISTORY PAGE -->
+<!-- ===== HISTORY ===== -->
 <div class="page" id="pageHistory">
-  <div class="container">
-    <div id="historyList"></div>
-  </div>
+  <div class="wrap" id="historyList"></div>
 </div>
 
 <script>
-/* ========== i18n ========== */
 const i18n = {
   ru: {
     tab_calc: "КАЛЬКУЛЯТОР", tab_history: "ИСТОРИЯ",
@@ -792,16 +691,16 @@ const i18n = {
     res_total_biga: "Всего биги", res_barrels: "Бочек",
     res_mix_hr: "Миксов / час", res_total_time: "Общее время",
     res_barrel_interval: "Интервал бочек", res_first_biga: "Старт первой биги",
-    res_first_mix: "Первый замес", res_line_start2: "Старт линии",
-    unit_kg: "кг", unit_barrels: "× 300 кг", unit_mix_hr: "миксов",
+    res_first_mix: "Первый замес",
+    unit_kg: "кг", unit_barrels: "\u00d7 300 кг", unit_mix_hr: "миксов",
     unit_hr_min: "ч:мин", unit_min_sec: "мин:сек",
     u_kg: "кг", u_pcs: "шт", u_sec: "сек", u_min: "мин", u_hr: "ч",
-    th_num: "№", th_start: "Запуск", th_ready: "Готовность",
+    th_num: "#", th_start: "Запуск", th_ready: "Готовность",
     err_fields: "Заполните все поля корректно",
-    err_ferm: "Ферментация биги: 11–13 часов",
+    err_ferm: "Ферментация биги: 11\u201313 часов",
     prev_day: "пред. день",
-    hist_empty: "Расчётов пока нет",
-    hist_empty_sub: "Результаты появятся здесь после расчёта",
+    hist_empty: "Расч\u0451тов пока нет",
+    hist_empty_sub: "Результаты появятся здесь после расч\u0451та",
     hist_barrels: "боч.", hist_mixes: "миксов",
     hist_total_biga: "Всего биги", hist_barrels_l: "Бочек",
     hist_interval: "Интервал", hist_first_biga: "Первая бига",
@@ -809,7 +708,7 @@ const i18n = {
     hist_cycle: "Цикл тайм", hist_ferm_dough: "Ферм. теста",
     hist_ferm_biga: "Ферм. биги", hist_travel: "Путь до линии",
     hist_total_time: "Общее время", hist_mix_hr: "Миксов/час",
-    hist_clear: "Очистить всё", hist_clear_confirm: "Удалить всю историю?"
+    hist_clear: "Очистить вс\u0451", hist_clear_confirm: "Удалить всю историю?"
   },
   en: {
     tab_calc: "CALCULATOR", tab_history: "HISTORY",
@@ -823,13 +722,13 @@ const i18n = {
     res_total_biga: "Total biga", res_barrels: "Barrels",
     res_mix_hr: "Mixes / hour", res_total_time: "Total time",
     res_barrel_interval: "Barrel interval", res_first_biga: "First biga start",
-    res_first_mix: "First dough mix", res_line_start2: "Line start",
-    unit_kg: "kg", unit_barrels: "× 300 kg", unit_mix_hr: "mixes",
+    res_first_mix: "First dough mix",
+    unit_kg: "kg", unit_barrels: "\u00d7 300 kg", unit_mix_hr: "mixes",
     unit_hr_min: "h:min", unit_min_sec: "min:sec",
     u_kg: "kg", u_pcs: "pcs", u_sec: "sec", u_min: "min", u_hr: "h",
     th_num: "#", th_start: "Start", th_ready: "Ready",
     err_fields: "Please fill all fields correctly",
-    err_ferm: "Biga fermentation: 11–13 hours",
+    err_ferm: "Biga fermentation: 11\u201313 hours",
     prev_day: "prev. day",
     hist_empty: "No calculations yet",
     hist_empty_sub: "Results will appear here after calculation",
@@ -861,9 +760,8 @@ function applyLang() {
   });
 }
 
-/* ========== TABS ========== */
 function switchTab(tab) {
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   if (tab === 'calc') {
     document.getElementById('tabCalc').classList.add('active');
@@ -875,7 +773,6 @@ function switchTab(tab) {
   }
 }
 
-/* ========== HELPERS ========== */
 function fmtTime(totalMinutes) {
   let mins = totalMinutes;
   let prevDay = false;
@@ -896,18 +793,14 @@ function hideError() {
   document.getElementById("errorMsg").style.display = "none";
 }
 
-/* ========== DEFAULTS ========== */
 const DEFAULTS = { bigaPerMix: "", totalMixes: "", cycleTime: "", doughFerm: "", travelTime: "", mixesBefore: 2, bigaFerm: 12, lineStart: "19:00" };
 
 function resetForm() {
-  Object.entries(DEFAULTS).forEach(([id, val]) => {
-    document.getElementById(id).value = val;
-  });
+  Object.entries(DEFAULTS).forEach(([id, val]) => document.getElementById(id).value = val);
   document.getElementById("results").style.display = "none";
   hideError();
 }
 
-/* ========== CALCULATE ========== */
 function calculate() {
   hideError();
   const v = {};
@@ -946,7 +839,6 @@ function calculate() {
   const bigaFermMinutes = v.bigaFermHrs * 60;
   const firstBigaMin = firstMixMin - bigaFermMinutes;
 
-  // Display
   document.getElementById("rTotalBiga").textContent = totalBiga.toLocaleString();
   document.getElementById("rBarrels").textContent = barrels;
   document.getElementById("rMixHr").textContent = mixesPerHour.toFixed(1);
@@ -961,31 +853,26 @@ function calculate() {
   document.getElementById("rFirstMix").textContent = fm.time;
   document.getElementById("rFirstMixDate").textContent = fm.prevDay ? t("prev_day") : "";
 
-  // Schedule
   const tbody = document.getElementById("scheduleBody");
   tbody.innerHTML = "";
   const barrelIntervalMin = barrelIntervalSec / 60;
-  const schedule = [];
 
   for (let i = 0; i < barrels; i++) {
     const sMin = firstBigaMin + i * barrelIntervalMin;
     const rMin = sMin + bigaFermMinutes;
     const s = fmtTime(sMin);
     const r = fmtTime(rMin);
-    schedule.push({ num: i+1, start: s, ready: r });
-
     const tr = document.createElement("tr");
     tr.innerHTML =
-      `<td class="t-num">${i+1}</td>` +
-      `<td class="t-time">${s.time}${s.prevDay ? '<span class="t-prev">' + t("prev_day") + '</span>' : ''}</td>` +
-      `<td class="t-time">${r.time}${r.prevDay ? '<span class="t-prev">' + t("prev_day") + '</span>' : ''}</td>`;
+      `<td class="td-num">${i+1}</td>` +
+      `<td class="td-time">${s.time}${s.prevDay ? '<span class="td-prev">' + t("prev_day") + '</span>' : ''}</td>` +
+      `<td class="td-time">${r.time}${r.prevDay ? '<span class="td-prev">' + t("prev_day") + '</span>' : ''}</td>`;
     tbody.appendChild(tr);
   }
 
   document.getElementById("results").style.display = "block";
   document.getElementById("results").scrollIntoView({ behavior: "smooth", block: "start" });
 
-  // Save to history
   saveHistory({
     ts: Date.now(),
     inputs: { ...v },
@@ -998,10 +885,9 @@ function calculate() {
   });
 }
 
-/* ========== HISTORY ========== */
+/* ===== HISTORY ===== */
 function getHistory() {
-  try { return JSON.parse(localStorage.getItem("bigaHistory") || "[]"); }
-  catch { return []; }
+  try { return JSON.parse(localStorage.getItem("bigaHistory") || "[]"); } catch { return []; }
 }
 
 function saveHistory(entry) {
@@ -1052,10 +938,10 @@ function renderHistory() {
   const hist = getHistory();
 
   if (hist.length === 0) {
-    list.innerHTML = `<div class="history-empty">
-      <div class="history-empty-icon">&#128203;</div>
+    list.innerHTML = `<div class="hist-empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
       <p>${t("hist_empty")}</p>
-      <p style="font-size:12px;margin-top:4px;color:var(--text3)">${t("hist_empty_sub")}</p>
+      <small>${t("hist_empty_sub")}</small>
     </div>`;
     return;
   }
@@ -1068,48 +954,44 @@ function renderHistory() {
     const r = entry.results;
     const inp = entry.inputs;
 
-    html += `<div class="history-item">
-      <div class="history-header" onclick="toggleHistoryDetail(${idx})">
-        <div class="history-meta">
-          <div class="history-date">${dateStr}</div>
-          <div class="history-summary">${inp.totalMixes} ${t("hist_mixes")} &middot; ${r.barrels} ${t("hist_barrels")} &middot; ${inp.lineStartStr}</div>
+    html += `<div class="hist-card">
+      <div class="hist-head" onclick="toggleHistoryDetail(${idx})">
+        <div class="hist-info">
+          <div class="hist-date">${dateStr}</div>
+          <div class="hist-sum">${inp.totalMixes} ${t("hist_mixes")} &middot; ${r.barrels} ${t("hist_barrels")} &middot; ${inp.lineStartStr}</div>
         </div>
-        <div class="history-badges">
-          <span class="history-badge">${r.firstBiga.time}</span>
-        </div>
-        <div class="history-actions">
-          <button class="history-btn" onclick="event.stopPropagation();loadFromHistory(${idx})" title="Load">&#8634;</button>
-          <button class="history-btn delete" onclick="event.stopPropagation();deleteHistory(${idx})" title="Delete">&#10005;</button>
+        <span class="hist-tag">${r.firstBiga.time}</span>
+        <div class="hist-btns">
+          <button class="hist-btn" onclick="event.stopPropagation();loadFromHistory(${idx})" title="Load">&#8634;</button>
+          <button class="hist-btn del" onclick="event.stopPropagation();deleteHistory(${idx})" title="Delete">&#10005;</button>
         </div>
       </div>
-      <div class="history-detail" id="hd-${idx}">
-        <div class="history-detail-grid">
-          <div class="hd-item"><span class="hd-label">${t("hist_total_biga")}</span><span class="hd-val">${r.totalBiga.toLocaleString()} ${t("u_kg")}</span></div>
-          <div class="hd-item"><span class="hd-label">${t("hist_barrels_l")}</span><span class="hd-val">${r.barrels}</span></div>
-          <div class="hd-item"><span class="hd-label">${t("hist_mix_hr")}</span><span class="hd-val">${r.mixesPerHour}</span></div>
-          <div class="hd-item"><span class="hd-label">${t("hist_total_time")}</span><span class="hd-val">${r.totalTime}</span></div>
-          <div class="hd-item"><span class="hd-label">${t("hist_interval")}</span><span class="hd-val">${r.interval}</span></div>
-          <div class="hd-item"><span class="hd-label">${t("hist_first_biga")}</span><span class="hd-val">${r.firstBiga.time} ${r.firstBiga.prevDay ? '(' + t("prev_day") + ')' : ''}</span></div>
-          <div class="hd-item"><span class="hd-label">${t("hist_first_mix")}</span><span class="hd-val">${r.firstMix.time} ${r.firstMix.prevDay ? '(' + t("prev_day") + ')' : ''}</span></div>
-          <div class="hd-item"><span class="hd-label">${t("hist_line_start")}</span><span class="hd-val">${r.lineStart}</span></div>
-          <div class="hd-item"><span class="hd-label">${t("hist_cycle")}</span><span class="hd-val">${inp.cycleTimeSec} ${t("u_sec")}</span></div>
-          <div class="hd-item"><span class="hd-label">${t("hist_ferm_dough")}</span><span class="hd-val">${inp.doughFermMin} ${t("u_min")}</span></div>
-          <div class="hd-item"><span class="hd-label">${t("hist_ferm_biga")}</span><span class="hd-val">${inp.bigaFermHrs} ${t("u_hr")}</span></div>
-          <div class="hd-item"><span class="hd-label">${t("hist_travel")}</span><span class="hd-val">${inp.travelMin} ${t("u_min")}</span></div>
+      <div class="hist-detail" id="hd-${idx}">
+        <div class="hd-grid">
+          <div class="hd-row"><span class="hd-k">${t("hist_total_biga")}</span><span class="hd-v">${r.totalBiga.toLocaleString()} ${t("u_kg")}</span></div>
+          <div class="hd-row"><span class="hd-k">${t("hist_barrels_l")}</span><span class="hd-v">${r.barrels}</span></div>
+          <div class="hd-row"><span class="hd-k">${t("hist_mix_hr")}</span><span class="hd-v">${r.mixesPerHour}</span></div>
+          <div class="hd-row"><span class="hd-k">${t("hist_total_time")}</span><span class="hd-v">${r.totalTime}</span></div>
+          <div class="hd-row"><span class="hd-k">${t("hist_interval")}</span><span class="hd-v">${r.interval}</span></div>
+          <div class="hd-row"><span class="hd-k">${t("hist_first_biga")}</span><span class="hd-v">${r.firstBiga.time} ${r.firstBiga.prevDay ? '(' + t("prev_day") + ')' : ''}</span></div>
+          <div class="hd-row"><span class="hd-k">${t("hist_first_mix")}</span><span class="hd-v">${r.firstMix.time} ${r.firstMix.prevDay ? '(' + t("prev_day") + ')' : ''}</span></div>
+          <div class="hd-row"><span class="hd-k">${t("hist_line_start")}</span><span class="hd-v">${r.lineStart}</span></div>
+          <div class="hd-row"><span class="hd-k">${t("hist_cycle")}</span><span class="hd-v">${inp.cycleTimeSec} ${t("u_sec")}</span></div>
+          <div class="hd-row"><span class="hd-k">${t("hist_ferm_dough")}</span><span class="hd-v">${inp.doughFermMin} ${t("u_min")}</span></div>
+          <div class="hd-row"><span class="hd-k">${t("hist_ferm_biga")}</span><span class="hd-v">${inp.bigaFermHrs} ${t("u_hr")}</span></div>
+          <div class="hd-row"><span class="hd-k">${t("hist_travel")}</span><span class="hd-v">${inp.travelMin} ${t("u_min")}</span></div>
         </div>
       </div>
     </div>`;
   });
 
-  html += `<div class="history-clear-row"><button class="btn-clear-all" onclick="clearHistory()">${t("hist_clear")}</button></div>`;
+  html += `<div class="hist-clear-wrap"><button class="btn-clear" onclick="clearHistory()">${t("hist_clear")}</button></div>`;
   list.innerHTML = html;
 }
 
-/* ========== SERVICE WORKER ========== */
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js');
 }
 </script>
-
 </body>
 </html>

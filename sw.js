@@ -1,4 +1,4 @@
-const CACHE_NAME = 'biga-calc-v5';
+const CACHE_NAME = 'biga-calc-v6';
 const ASSETS = [
   './',
   './index.html',
