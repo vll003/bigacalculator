@@ -778,7 +778,7 @@
     <div class="section">
       <div class="section-header">
         <div class="section-icon">&#9203;</div>
-        <div class="section-title" data-i18n="gap_section_input">CHANGE OVER</div>
+        <div class="section-title" data-i18n="gap_section_cur">ТЕКУЩИЙ ПРОДУКТ</div>
       </div>
       <div class="form-grid">
         <div class="field">
@@ -788,23 +788,23 @@
           </div>
         </div>
         <div class="field">
-          <label data-i18n="gap_lbl_cycle">Цикл тайм нового продукта</label>
+          <label data-i18n="gap_lbl_cur_cycle">Цикл тайм</label>
           <div class="input-wrap">
-            <input type="number" id="gapCycleTime" value="" min="1" step="1" inputmode="numeric" placeholder="405">
+            <input type="number" id="gapCurCycle" value="" min="1" step="1" inputmode="numeric" placeholder="405">
             <span class="input-unit" data-i18n="u_sec">сек</span>
           </div>
         </div>
         <div class="field">
-          <label data-i18n="gap_lbl_ferm">Ферментация теста</label>
+          <label data-i18n="gap_lbl_cur_ferm">Ферментация теста</label>
           <div class="input-wrap">
-            <input type="number" id="gapFerm" value="" min="0" step="1" inputmode="numeric" placeholder="35">
+            <input type="number" id="gapCurFerm" value="" min="0" step="1" inputmode="numeric" placeholder="35">
             <span class="input-unit" data-i18n="u_min">мин</span>
           </div>
         </div>
         <div class="field">
-          <label data-i18n="gap_lbl_travel">Путь до линии</label>
+          <label data-i18n="gap_lbl_cur_travel">Путь до линии</label>
           <div class="input-wrap">
-            <input type="number" id="gapTravel" value="" min="0" step="1" inputmode="numeric" placeholder="7">
+            <input type="number" id="gapCurTravel" value="" min="0" step="1" inputmode="numeric" placeholder="7">
             <span class="input-unit" data-i18n="u_min">мин</span>
           </div>
         </div>
@@ -812,6 +812,43 @@
           <label data-i18n="gap_lbl_plan">Gap по плану</label>
           <div class="input-wrap">
             <input type="number" id="gapPlan" value="" min="0" step="1" inputmode="numeric" placeholder="30">
+            <span class="input-unit" data-i18n="u_min">мин</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon">&#9733;</div>
+        <div class="section-title" data-i18n="gap_section_new">НОВЫЙ ПРОДУКТ</div>
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label data-i18n="gap_lbl_new_cycle">Цикл тайм</label>
+          <div class="input-wrap">
+            <input type="number" id="gapNewCycle" value="" min="1" step="1" inputmode="numeric" placeholder="405">
+            <span class="input-unit" data-i18n="u_sec">сек</span>
+          </div>
+        </div>
+        <div class="field">
+          <label data-i18n="gap_lbl_new_mix_time">Время замеса (микс)</label>
+          <div class="input-wrap">
+            <input type="number" id="gapNewMixTime" value="" min="1" step="1" inputmode="numeric" placeholder="180">
+            <span class="input-unit" data-i18n="u_sec">сек</span>
+          </div>
+        </div>
+        <div class="field">
+          <label data-i18n="gap_lbl_new_ferm">Ферментация теста</label>
+          <div class="input-wrap">
+            <input type="number" id="gapNewFerm" value="" min="0" step="1" inputmode="numeric" placeholder="35">
+            <span class="input-unit" data-i18n="u_min">мин</span>
+          </div>
+        </div>
+        <div class="field">
+          <label data-i18n="gap_lbl_new_travel">Путь до линии</label>
+          <div class="input-wrap">
+            <input type="number" id="gapNewTravel" value="" min="0" step="1" inputmode="numeric" placeholder="7">
             <span class="input-unit" data-i18n="u_min">мин</span>
           </div>
         </div>
@@ -890,12 +927,17 @@ const i18n = {
     hist_total_time: "Общее время", hist_mix_hr: "Миксов/час",
     hist_clear: "Очистить всё", hist_clear_confirm: "Удалить всю историю?",
     tab_gap: "CHANGE OVER",
-    gap_section_input: "CHANGE OVER",
+    gap_section_cur: "ТЕКУЩИЙ ПРОДУКТ",
+    gap_section_new: "НОВЫЙ ПРОДУКТ",
     gap_lbl_last_mix: "Закрытие последнего микса",
-    gap_lbl_cycle: "Цикл тайм нового продукта",
-    gap_lbl_ferm: "Ферментация теста",
-    gap_lbl_travel: "Путь до линии",
+    gap_lbl_cur_cycle: "Цикл тайм",
+    gap_lbl_cur_ferm: "Ферментация теста",
+    gap_lbl_cur_travel: "Путь до линии",
     gap_lbl_plan: "Gap по плану",
+    gap_lbl_new_cycle: "Цикл тайм",
+    gap_lbl_new_mix_time: "Время замеса (микс)",
+    gap_lbl_new_ferm: "Ферментация теста",
+    gap_lbl_new_travel: "Путь до линии",
     gap_section_results: "РЕЗУЛЬТАТЫ CHANGE OVER",
     gap_res_line_start: "Старт нового продукта на линии",
     gap_res_first_mix: "Закрытие первого микса",
@@ -932,12 +974,17 @@ const i18n = {
     hist_total_time: "Total time", hist_mix_hr: "Mixes/hr",
     hist_clear: "Clear all", hist_clear_confirm: "Delete all history?",
     tab_gap: "CHANGE OVER",
-    gap_section_input: "CHANGE OVER",
+    gap_section_cur: "CURRENT PRODUCT",
+    gap_section_new: "NEW PRODUCT",
     gap_lbl_last_mix: "Last mix closing time",
-    gap_lbl_cycle: "New product cycle time",
-    gap_lbl_ferm: "Dough fermentation",
-    gap_lbl_travel: "Travel to line",
+    gap_lbl_cur_cycle: "Cycle time",
+    gap_lbl_cur_ferm: "Dough fermentation",
+    gap_lbl_cur_travel: "Travel to line",
     gap_lbl_plan: "Planned gap",
+    gap_lbl_new_cycle: "Cycle time",
+    gap_lbl_new_mix_time: "Mix time (mixing)",
+    gap_lbl_new_ferm: "Dough fermentation",
+    gap_lbl_new_travel: "Travel to line",
     gap_section_results: "CHANGE OVER RESULTS",
     gap_res_line_start: "New product line start",
     gap_res_first_mix: "First mix closing time",
@@ -1211,7 +1258,7 @@ function renderHistory() {
 
 /* ========== GAP / CHANGE OVER ========== */
 function resetGap() {
-  ["gapLastMix","gapCycleTime","gapFerm","gapTravel","gapPlan"].forEach(id => {
+  ["gapLastMix","gapCurCycle","gapCurFerm","gapCurTravel","gapPlan","gapNewCycle","gapNewMixTime","gapNewFerm","gapNewTravel"].forEach(id => {
     document.getElementById(id).value = "";
   });
   document.getElementById("gapResults").style.display = "none";
@@ -1222,12 +1269,20 @@ function calculateGap() {
   document.getElementById("gapErrorMsg").style.display = "none";
 
   const lastMixStr = document.getElementById("gapLastMix").value;
-  const cycleSec = parseFloat(document.getElementById("gapCycleTime").value);
-  const fermMin = parseFloat(document.getElementById("gapFerm").value);
-  const travelMin = parseFloat(document.getElementById("gapTravel").value);
+  // Текущий продукт
+  const curCycleSec = parseFloat(document.getElementById("gapCurCycle").value);
+  const curFermMin = parseFloat(document.getElementById("gapCurFerm").value);
+  const curTravelMin = parseFloat(document.getElementById("gapCurTravel").value);
   const gapPlanMin = parseFloat(document.getElementById("gapPlan").value);
+  // Новый продукт
+  const newCycleSec = parseFloat(document.getElementById("gapNewCycle").value);
+  const newMixTimeSec = parseFloat(document.getElementById("gapNewMixTime").value);
+  const newFermMin = parseFloat(document.getElementById("gapNewFerm").value);
+  const newTravelMin = parseFloat(document.getElementById("gapNewTravel").value);
 
-  if (!lastMixStr || [cycleSec, fermMin, travelMin, gapPlanMin].some(x => isNaN(x) || x < 0) || cycleSec < 1) {
+  if (!lastMixStr ||
+      [curCycleSec, curFermMin, curTravelMin, gapPlanMin, newCycleSec, newMixTimeSec, newFermMin, newTravelMin]
+        .some(x => isNaN(x) || x < 0) || curCycleSec < 1 || newCycleSec < 1 || newMixTimeSec < 1) {
     const el = document.getElementById("gapErrorMsg");
     el.textContent = t("gap_err");
     el.style.display = "block";
@@ -1236,15 +1291,17 @@ function calculateGap() {
 
   const [lh, lm] = lastMixStr.split(":").map(Number);
   const lastMixMin = lh * 60 + lm;
-  const cycleMin = cycleSec / 60;
+  const curCycleMin = curCycleSec / 60;
+  const newCycleMin = newCycleSec / 60;
+  const newMixTimeMin = newMixTimeSec / 60;
 
-  // Время старта нового продукта на линии =
-  // закрытие последнего микса + цикл×2 + ферментация + путь + gap
-  const newLineStartMin = lastMixMin + (cycleMin * 2 + fermMin + travelMin + gapPlanMin);
+  // Старт нового продукта на линии =
+  // закрытие последнего микса + цикл текущего×2 + ферм текущего + путь текущего + gap
+  const newLineStartMin = lastMixMin + (curCycleMin * 2 + curFermMin + curTravelMin + gapPlanMin);
 
-  // Время закрытия первого микса нового продукта =
-  // старт на линии - ферментация - путь - цикл тайм
-  const firstMixCloseMin = newLineStartMin - fermMin - travelMin - cycleMin;
+  // Закрытие первого микса нового продукта =
+  // старт на линии - ферм нового - путь нового - (время замеса + цикл тайм нового)
+  const firstMixCloseMin = newLineStartMin - newFermMin - newTravelMin - (newMixTimeMin + newCycleMin);
 
   const ls = fmtTime(newLineStartMin);
   document.getElementById("gapRLineStart").textContent = ls.time;
